@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
+import { useNavigate } from 'react-router-dom'
+import useAuth from '../hooks/index'
 import Cookies from 'js-cookie'
 
 const LOGIN_MUTATION = gql`
@@ -16,6 +18,14 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [login, { error, loading }] = useMutation(LOGIN_MUTATION)
+    const navigate = useNavigate()
+    const { isAuthenticated } = useAuth()
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/products')
+        }
+    }, [isAuthenticated])
 
     const handleLogin = async () => {
         try {
