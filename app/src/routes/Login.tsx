@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
+import Button from '../components/Button'
 import useAuth from '../hooks/index'
 import Cookies from 'js-cookie'
 
@@ -77,9 +78,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
-            <button onClick={handleLogin} disabled={loading}>
-                {loading ? 'Logging In...' : 'Log In'}
-            </button>
+            <Button label={loading ? 'Logging In...' : 'Log In'} onClick={handleLogin} disabled={loading} />
             {error && <p>Error: {error.message}</p>}
         </div>
     )

@@ -1,8 +1,11 @@
-import React from 'react'
+import Button from '../components/Button'
 
 const Home = () => {
     return (
-        <div><h1>Home</h1></div>
+        <div>
+            <h1>Home</h1>
+            <Button label='login' to='/login' />
+        </div>
     )
 }
 

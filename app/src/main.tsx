@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { ApolloClient, ApolloProvider, InMemoryCache, createHttpLink } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import { BrowserRouter } from 'react-router-dom'
+import Cookies from 'js-cookie'
 import App from './App.tsx'
 import './index.css'
 
@@ -12,7 +13,7 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
     // Should add the expiry + refresh logic here
-    const token = '' // Use the access token saved in localStorage here
+    const token = Cookies.get('accessToken') // Use the access token saved in localStorage here
     return {
         headers: {
             ...headers,
