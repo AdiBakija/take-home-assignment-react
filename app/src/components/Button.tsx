@@ -15,7 +15,7 @@ const Button = ({ className, disabled, label, onClick, to }: ButtonProps) => {
             to={to}
         >
             <button
-                className={`bg-judo-purple text-white py-2 ht-10 rounded w-full ${className}`}
+                className={`bg-judo-purple text-white text-sm/6 py-2 ht-10 rounded-sm w-full ${className}`}
                 disabled={disabled}
             >
                 {label}

@@ -1,21 +1,20 @@
-import { ChangeEvent } from 'react'
-
 interface InputProps {
+    className?: string
     label: string
     value: string
 }
 
-const Input = ({ label, value, ...props }: InputProps) => {
+const Input = ({ className, label, value, ...props }: InputProps) => {
     return (
         <div className="mb-4">
-            <label htmlFor={label} className="block text-sm font-bold leading-6 text-black">
+            <label htmlFor={label} className="block text-sm/6 font-bold leading-6 text-black">
                 {label}
             </label>
             <div className="mt-2">
                 <input
                     {...props}
                     value={value}
-                    className="block w-full rounded-md border-0 py-2 px-4 text-black shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className={`block w-full text-sm/6 border rounded-sm border-[#CCCCCC] bg-white py-2 px-4 text-black ${className}`}
                 />
             </div>
         </div>

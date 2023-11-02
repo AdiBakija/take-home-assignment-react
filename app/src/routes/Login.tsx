@@ -63,26 +63,37 @@ const Login = () => {
 
     return (
         <>
-            <div className="min-h-full w-[466px] p-14 bg-white">
+            <div className="min-h-full w-[466px] p-14 bg-white rounded-[10px] shadow-[0_0_6px_0_rgba(0,0,0,0.20)]">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img className="h-10 mb-10" src={logo} alt="Judo Logo" />
-                    <h2 className="mb-8 text-4xl font-semibold leading-10 text-black">Sign in</h2>
+                    <h2 className="mb-8 text-3xl/10 font-semibold leading-10 text-black">Sign in</h2>
                 </div>
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <div className='mb-6'>
-                        <Input label="Email" type="email" autoComplete="email" onChange={(e) => setEmail(e.target.value)} value={email} required />
-                    </div>
-
-                    <div className='mb-6'>
-                        <Input label="Password" type="password" autoComplete="password" onChange={(e) => setPassword(e.target.value)} value={password} required />
-                    </div>
-
-                    <div className='mb-6'>
-                        <Button label={loading ? 'Signing In...' : 'Sign In'} onClick={handleLogin} disabled={loading} />
-                    </div>
-                    <div className="text-sm text-center">
-                        <a href="#" className="font-bold text-black">Forgot password?</a>
-                    </div>
+                <Input
+                    className='mb-6'
+                    label="Email"
+                    type="email"
+                    autoComplete="email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                    required
+                />
+                <Input
+                    className='mb-6'
+                    label="Password"
+                    type="password"
+                    autoComplete="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                    required
+                />
+                <Button
+                    className='mb-6'
+                    label={loading ? 'Signing In...' : 'Sign In'}
+                    onClick={handleLogin}
+                    disabled={loading}
+                />
+                <div className="text-sm text-center">
+                    <a href="#" className="font-bold text-black">Forgot password?</a>
                 </div>
             </div>
             {error && <p>Error: {error.message}</p>}
