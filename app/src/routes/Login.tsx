@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
+import Input from '../components/Input'
 import useAuth from '../hooks/index'
 import Cookies from 'js-cookie'
+import logo from '../assets/Logo.png'
 
 const LOGIN_MUTATION = gql`
     mutation Authenticate($email: String!, $password: String!) {
@@ -60,27 +62,31 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <h2>Login</h2>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+        <>
+            <div className="min-h-full w-[466px] p-14 bg-white">
+                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <img className="h-10 mb-10" src={logo} alt="Judo Logo" />
+                    <h2 className="mb-8 text-4xl font-semibold leading-10 text-black">Sign in</h2>
+                </div>
+                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <div className='mb-6'>
+                        <Input label="Email" type="email" autoComplete="email" onChange={(e) => setEmail(e.target.value)} value={email} required />
+                    </div>
+
+                    <div className='mb-6'>
+                        <Input label="Password" type="password" autoComplete="password" onChange={(e) => setPassword(e.target.value)} value={password} required />
+                    </div>
+
+                    <div className='mb-6'>
+                        <Button label={loading ? 'Signing In...' : 'Sign In'} onClick={handleLogin} disabled={loading} />
+                    </div>
+                    <div className="text-sm text-center">
+                        <a href="#" className="font-bold text-black">Forgot password?</a>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <Button label={loading ? 'Logging In...' : 'Log In'} onClick={handleLogin} disabled={loading} />
             {error && <p>Error: {error.message}</p>}
-        </div>
+        </>
     )
 }
 
