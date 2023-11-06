@@ -1,4 +1,4 @@
-import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink, gql, Observable } from '@apollo/client'
+import { ApolloClient, ApolloLink, InMemoryCache, createHttpLink, Observable } from '@apollo/client'
 import { getAuthCookies, setAuthCookies } from '../utils/auth.js'
 import { setContext } from '@apollo/client/link/context'
 import { onError } from "@apollo/client/link/error"
