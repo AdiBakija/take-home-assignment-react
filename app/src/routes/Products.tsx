@@ -1,4 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
+import ProductCard from '../components/ProductCard'
 
 const PRODUCT_QUERY = gql`
     query Products {
@@ -34,14 +35,22 @@ const Products = () => {
 
     return (
         <div>
-            <h1>Products</h1>
-            <ul>
-                {products.map((product) => (
-                    <li key={product.id}>
-                        {product.title} - ${product.price} {product.currency}
-                    </li>
-                ))}
-            </ul>
+            <h1 className='text-black'>Products</h1>
+            <div className='flex flex-row'>
+                {
+                    products.map((product) => (
+                        <ProductCard
+                            key={product.id}
+                            currency={product.currency}
+                            description={product.description}
+                            id={product.id}
+                            imageUrl=''
+                            price={product.price}
+                            title={product.title}
+                        />
+                    ))
+                }
+            </div>
         </div>
     )
 }
