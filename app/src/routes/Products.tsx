@@ -26,7 +26,11 @@ const Products = () => {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error.message}</p>
 
-    const products: Product[] = data.products
+    const products: Product[] = data?.products
+
+    if (!products) {
+        return ''
+    }
 
     return (
         <div>

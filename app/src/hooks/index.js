@@ -1,7 +1,7 @@
-import Cookies from 'js-cookie';
+import { getAuthCookies } from "../utils/auth"
 
 const useAuth = () => {
-  const accessToken = Cookies.get('accessToken')
+  const { accessToken } = getAuthCookies()
   const isAuthenticated = !!accessToken
 
   return {
