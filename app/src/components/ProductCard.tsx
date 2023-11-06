@@ -1,7 +1,6 @@
 interface ProductCardProps {
     currency: string
     description: string
-    id: string
     price: number
     title: string
     imageUrl: string
@@ -10,19 +9,20 @@ interface ProductCardProps {
 const ProductCard = ({
     currency,
     description,
-    id,
     price,
     title,
     imageUrl,
 }: ProductCardProps) => {
     return (
-        <div key={`product-${id}`} className="max-w-xs rounded-md border-2 overflow-hidden shadow-lg">
-            <img src={imageUrl} alt={`${title}-${id}`} className="w-full text-black" />
-            <div className="px-6 py-4">
-                <div className="text-black font-bold text-xl mb-2">{title}</div>
-                <p className="text-black text-base">{description}</p>
-                <p className="text-black text-2xl">
-                    {currency}
+        <div className="relative flex flex-col overflow-hidden rounded-lg border">
+            <div className="overflow-hidden">
+                <img src={imageUrl} alt={title} className="h-32 w-32 object-cover" />
+            </div>
+            <div className="my-4 mx-auto flex w-10/12 flex-col items-start justify-between">
+                <p className="text-black mr-3 text-sm font-semibold">{title}</p>
+                <p className="text-black mr-3 text-sm">{description}</p>
+                <p className="text-black mr-3 text-xl font-bold">
+                    {currency}{" "}
                     {price}
                 </p>
             </div>

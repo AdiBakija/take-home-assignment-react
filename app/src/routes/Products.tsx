@@ -36,14 +36,13 @@ const Products = () => {
     return (
         <div>
             <h1 className='text-black'>Products</h1>
-            <div className='flex flex-row'>
+            <div className='mt-10 grid grid-cols-4 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16'>
                 {
                     products.map((product) => (
                         <ProductCard
                             key={product.id}
                             currency={product.currency}
                             description={product.description}
-                            id={product.id}
                             imageUrl=''
                             price={product.price}
                             title={product.title}
