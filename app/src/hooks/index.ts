@@ -1,6 +1,11 @@
 import { getAuthCookies } from "../utils/auth"
 
-const useAuth = () => {
+interface AuthData {
+  isAuthenticated: boolean;
+  accessToken: string | undefined;
+}
+
+const useAuth = (): AuthData => {
   const { accessToken } = getAuthCookies()
   const isAuthenticated = !!accessToken
 

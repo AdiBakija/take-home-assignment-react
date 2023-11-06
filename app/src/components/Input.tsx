@@ -1,6 +1,10 @@
 interface InputProps {
+    autoComplete: 'password' | 'email'
     className?: string
     label: string
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+    required: boolean
+    type: 'email' | 'password' | 'text'
     value: string
 }
 

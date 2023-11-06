@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { gql, useMutation } from '@apollo/client'
 import { useNavigate } from 'react-router-dom'
+import { setAuthCookies } from '../utils/auth'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import useAuth from '../hooks/index'
-import Cookies from 'js-cookie'
 import logo from '../assets/Logo.png'
 
 const LOGIN_MUTATION = gql`
@@ -35,26 +35,12 @@ const Login = () => {
             const { data } = await login({
                 variables: { email, password },
             })
-            console.log('Data', data)
             const accessToken = data.authenticate.accessToken
             const refreshToken = data.authenticate.refreshToken
             const expiresAt = data.authenticate.expiresAt
 
             // Save session to cookies to persist user
-            Cookies.set(
-                'accessToken',
-                accessToken,
-                {
-                    sameSite: 'strict',
-                }
-            )
-            Cookies.set(
-                'refreshToken',
-                refreshToken,
-                {
-                    sameSite: 'strict',
-                }
-            )
+            setAuthCookies({ accessToken, refreshToken, expiresAt })
         } catch (error) {
             console.error('Login failed:', error)
         }
@@ -89,6 +75,7 @@ const Login = () => {
                     className='mb-6'
                     label={loading ? 'Signing In...' : 'Sign In'}
                     onClick={handleLogin}
+                    to=''
                     disabled={loading}
                 />
                 <div className="text-sm text-center">

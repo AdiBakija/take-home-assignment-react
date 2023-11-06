@@ -23,7 +23,7 @@ interface Product {
 
 const Products = () => {
     const { loading, error, data } = useQuery(PRODUCT_QUERY)
-    console.log("DATA: ", data)
+
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error.message}</p>
 
