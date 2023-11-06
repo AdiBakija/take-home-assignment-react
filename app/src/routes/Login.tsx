@@ -45,7 +45,6 @@ const Login = () => {
                 'accessToken',
                 accessToken,
                 {
-                    expires: new Date(expiresAt),
                     sameSite: 'strict',
                 }
             )
@@ -95,6 +94,10 @@ const Login = () => {
                 <div className="text-sm text-center">
                     <a href="#" className="font-bold text-black">Forgot password?</a>
                 </div>
+            </div>
+            <div className='mt-8'>
+                <p className='text-sm/6 text-center text-[#858484] tracking-normal'>@2001-2019 All Rights Reserved. Clip&#174; is a registered trademark of Rover Labs.</p>
+                <p className='text-sm/6 text-center text-[#858484] tracking-normal'>Cookie Preferences, Privacy and Terms.</p>
             </div>
             {error && <p>Error: {error.message}</p>}
         </>

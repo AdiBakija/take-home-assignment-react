@@ -5,41 +5,44 @@ import { onError } from "@apollo/client/link/error"
 
 const refreshToken = async () => {
     const { accessToken, refreshToken } = getAuthCookies()
-    console.log('Access Token: ', accessToken)
-    console.log('Refresh Token: ', refreshToken)
 
     try {
-        const result = await client.mutate(
+        let newAccessToken
+        client.mutate(
             {
                 mutation: gql`
-                    mutation {
-                        refreshSession(accessToken: String!, refreshToken: String!) {
-                            accessToken
-                            refreshToken
-                            expiresAt
-                        }
-                    }`,
+                mutation RefreshSession($accessToken: String!, $refreshToken: String!) {
+                    refreshSession(accessToken: $accessToken, refreshToken: $refreshToken) {
+                      accessToken
+                      refreshToken
+                      expiresAt
+                    }
+                  }
+                  `,
                 variables: {
                     accessToken: accessToken,
-                    refreshTokens: refreshToken,
+                    refreshToken: refreshToken,
                 }
             }
-        )
+        ).then((result) => {
+            newAccessToken = result.data.refreshSession.accessToken
+            const newRefreshToken = result.data.refreshSession.refreshToken
+            const newExpiresAt = result.data.refreshSession.expiresAt
+            
+            // Update cookies with the new tokens and expiration time
+            setAuthCookies({
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+                expiresAt: newExpiresAt,
+            })
+          })
+          .catch((error) => {
+            console.error('Mutation Error:', error)
+          })
 
-        const newAccessToken = result.data.refreshSession.accessToken
-        const newRefreshToken = result.data.refreshSession.refreshToken
-        const newExpiresAt = result.data.refreshSession.expiresAt
-
-        // Update cookies with the new tokens and expiration time
-        setAuthCookies({
-            accessToken: newAccessToken,
-            refreshToken: newRefreshToken,
-            expiresAt: newExpiresAt,
-        })
 
         return newAccessToken
     } catch (error) {
-        // Handle error during token refresh
         throw new Error('Failed to refresh token')
     }
 }
@@ -58,18 +61,25 @@ const authLink = setContext((_, { headers }) => {
     }
 })
 
+let processingTokenRefresh = false
 // Link for handling session refresh and retrying the initial request via forward
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
-    // Since "UNAUTHENTICATED" is what the error returned is, refresh token in this case
-    const unauthenticatedError = graphQLErrors?.find(error => error.extensions.code === "UNAUTHENTICATED")
+    // Since "SESSION_EXPIRED" is what the error returned is, refresh token in this case
+    const sessionExpiredError = graphQLErrors?.find(error => error.extensions.code === "SESSION_EXPIRED")
 
-    if (unauthenticatedError) {
-        operation.setContext({
-            headers: {
-                ...operation.getContext().headers,
-                authorization: `Bearer ${refreshToken()}`
-            }
+    if (sessionExpiredError && !processingTokenRefresh) {
+        processingTokenRefresh = true
+        refreshToken().then((accessToken) => {
+            operation.setContext({
+                headers: {
+                    ...operation.getContext().headers,
+                    authorization: `Bearer ${accessToken}`
+                }
+            })
+            processingTokenRefresh = false
         })
+
+        return forward(operation)
     }
 
     return forward(operation)
